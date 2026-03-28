@@ -5,15 +5,13 @@ An [OpenCode](https://opencode.ai) plugin + skill that lets your AI agent search
 ## Quick Install
 
 ```bash
-# Clone into your project's .opencode directory
-git clone https://github.com/lucataco/replicate-opencode-plugin.git /tmp/replicate-plugin
-cp -r /tmp/replicate-plugin/.opencode/ .opencode/
-rm -rf /tmp/replicate-plugin
+curl -sSL https://raw.githubusercontent.com/lucataco/replicate-opencode-plugin/main/install.sh | bash
+```
 
-# Set your Replicate API token
+Then set your API token and start OpenCode:
+
+```bash
 export REPLICATE_API_TOKEN=r8_your_token_here
-
-# Start OpenCode
 opencode
 ```
 
