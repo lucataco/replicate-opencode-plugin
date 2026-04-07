@@ -1,6 +1,9 @@
 # Dependencies
-.opencode/node_modules/
-.opencode/bun.lock
+node_modules/
+bun.lock
+
+# Local OpenCode install artifacts
+.opencode/
 
 # OS
 .DS_Store

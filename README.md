@@ -1,6 +1,6 @@
 # Replicate Plugin for OpenCode
 
-An [OpenCode](https://opencode.ai) plugin + skill that lets your AI agent search, explore, and run ML models on [Replicate](https://replicate.com) — directly from the terminal.
+An [OpenCode](https://opencode.ai) plugin + skill that lets your AI agent search, explore, and run ML models on [Replicate](https://replicate.com) directly from the terminal.
 
 ## Quick Install
 
@@ -15,7 +15,7 @@ export REPLICATE_API_TOKEN=r8_your_token_here
 opencode
 ```
 
-OpenCode auto-discovers the plugin and runs `bun install` to resolve dependencies.
+The installer writes the plugin into your project's `.opencode/` directory. OpenCode then auto-discovers it and runs `bun install` there to resolve dependencies.
 
 ## What It Does
 
@@ -28,16 +28,19 @@ The plugin registers four tools that the LLM agent can call during a conversatio
 | `replicate_run` | Run a prediction. Handles sync wait (60s) and automatic polling until completion. |
 | `replicate_whoami` | Check the authenticated Replicate account. |
 
-It also ships a **companion skill** (`.opencode/skills/replicate/SKILL.md`) that injects workflow guidance into the agent's system prompt — how to plan multi-step creative tasks, which models to prefer, and how to present outputs.
+It also ships a **companion skill** (`skills/replicate/SKILL.md` in this repo, installed to `.opencode/skills/replicate/SKILL.md`) that injects workflow guidance into the agent's system prompt: how to plan multi-step creative tasks, which models to prefer, and how to present outputs.
 
 ## Setup
 
 ### Option A: Per-project install
 
-Copy the `.opencode/` directory into the root of any project:
+Copy the repo files into a project's `.opencode/` directory:
 
 ```bash
-cp -r .opencode/ /path/to/your/project/.opencode/
+mkdir -p /path/to/your/project/.opencode/plugins /path/to/your/project/.opencode/skills/replicate
+cp plugins/replicate.ts /path/to/your/project/.opencode/plugins/
+cp skills/replicate/SKILL.md /path/to/your/project/.opencode/skills/replicate/
+cp package.json /path/to/your/project/.opencode/package.json
 ```
 
 ### Option B: Global install
@@ -46,14 +49,14 @@ Install the plugin and skill globally so they're available in every project:
 
 ```bash
 # Plugin
-cp .opencode/plugins/replicate.ts ~/.config/opencode/plugins/
+cp plugins/replicate.ts ~/.config/opencode/plugins/
 
 # Skill
 mkdir -p ~/.config/opencode/skills/replicate
-cp .opencode/skills/replicate/SKILL.md ~/.config/opencode/skills/replicate/
+cp skills/replicate/SKILL.md ~/.config/opencode/skills/replicate/
 
 # Dependencies (if you don't already have a package.json here)
-cp .opencode/package.json ~/.config/opencode/package.json
+cp package.json ~/.config/opencode/package.json
 ```
 
 ### Set your API token
@@ -96,14 +99,28 @@ Tool argument schemas are defined using [Zod](https://zod.dev) via the `@opencod
 
 ## File Structure
 
-```
-.opencode/
-├── package.json                 # Dependency: @opencode-ai/plugin
+Source layout in this repo:
+
+```text
+.
+├── package.json                 # Dependency template copied into .opencode/
 ├── plugins/
-│   └── replicate.ts             # Plugin source — 4 tools
+│   └── replicate.ts             # Plugin source - 4 tools
 └── skills/
     └── replicate/
         └── SKILL.md             # Workflow guidance injected into agent prompt
+```
+
+Installed layout inside a project:
+
+```text
+.opencode/
+├── package.json
+├── plugins/
+│   └── replicate.ts
+└── skills/
+    └── replicate/
+        └── SKILL.md
 ```
 
 ## Requirements
@@ -114,4 +131,4 @@ Tool argument schemas are defined using [Zod](https://zod.dev) via the `@opencod
 
 ## License
 
-[MIT](LICENSE)
+[Apache 2.0](LICENSE)
